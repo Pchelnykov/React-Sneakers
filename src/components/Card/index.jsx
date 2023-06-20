@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Card.module.scss';
 
-function Card({ onPlus, imgUrl, title, price }) {
+function Card({ onPlus, imgUrl, title, price, favorite, onChangeFavorite }) {
     const [onChange, setOnChange] = React.useState(false);
     const onChangeImg = () => {
         onPlus({ imgUrl, title, price });
@@ -10,7 +10,7 @@ function Card({ onPlus, imgUrl, title, price }) {
     return (
         <div className={styles.card}>
             <div className={styles.favorites}>
-                <img src="/img/unliked.svg" alt="unliked" />
+                <img src={favorite ? "/img/liked.svg" : "/img/unliked.svg"} alt="unliked" onClick={onChangeFavorite} />
             </div>
             <img width={133} height={122} src={imgUrl} alt="nike" />
             <h5>{title}</h5>
