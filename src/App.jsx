@@ -21,22 +21,25 @@ function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
   const [changeValue, setChangeValue] = React.useState('');
-  const [isFavorite, setIsFavorite] = React.useState(false);
+  const [favorites, setFavorites] = React.useState([]);
 
   const onChangeValue = (event) => setChangeValue(event.target.value);
-  console.log(changeValue);
-
 
   React.useEffect(() => {
     // fetch('https://647caec5c0bae2880ad111db.mockapi.io/items').then(res => res.json()).then((json) => setItems(json));
     axios.get('https://647caec5c0bae2880ad111db.mockapi.io/items').then((res) => { setItems(res.data) });
-    axios.get('https://647caec5c0bae2880ad111db.mockapi.io/cart').then((res) => { setCartItems(res.data) });
+    // axios.get('https://647caec5c0bae2880ad111db.mockapi.io/cart').then((res) => { setCartItems(res.data) });
   }, [])
 
   const addToCart = (obj) => {
-    axios.post('https://647caec5c0bae2880ad111db.mockapi.io/cart', obj);
+    // axios.post('https://647caec5c0bae2880ad111db.mockapi.io/cart', obj);
     setCartItems(prev => [...prev, obj])
   };
+
+  const addToFavorites = (obj) => {
+    axios.post('https://647caec5c0bae2880ad111db.mockapi.io/favorites', obj);
+    setFavorites(prev => [...prev, obj])
+  }
 
   return (
     <div className="wrapper clear">
@@ -53,7 +56,8 @@ function App() {
         </div>
         <div className="d-flex flex-wrap">
           {items.filter((item) => { return item.title.toLowerCase().includes(changeValue.toLowerCase()) }).map((items, i) => {
-            return <Card title={items.title} price={items.price} imgUrl={items.imgUrl} key={i} onPlus={addToCart} favorite={isFavorite} onChangeFavorite={() => setIsFavorite(true)} />
+            return <Card title={items.title} price={items.price} imgUrl={items.imgUrl} key={i} onPlus={addToCart}
+              onFavorites={addToFavorites} />
           })}
         </div>
       </div>
